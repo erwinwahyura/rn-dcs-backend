@@ -27,8 +27,17 @@ var deleteKaryawan = (req, res) => {
         err ? res.status(500).send(err) :res.status(200).send(result)
     })
 }
+
+var getKaryawanById = function(req, res) {
+    var id = req.params.id
+    m_karyawan.findById({id:id}, function(err, result) {
+      err ? res.status(500).send(err) :res.status(200).send(result)
+    })
+}
+
 module.exports = {
     create,
     getAllKaryawan,
-    deleteKaryawan
+    deleteKaryawan,
+    getKaryawanById
 }
