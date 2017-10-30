@@ -28,10 +28,18 @@ var deleteKaryawan = (req, res) => {
     })
 }
 
-var getKaryawanById = function(req, res) {
+var getKaryawanById = (req, res) => {
     var id = req.params.id
-    m_karyawan.findById({id:id}, function(err, result) {
+    m_karyawan.findById({id:id}, (err, result) => {
       err ? res.status(500).send(err) :res.status(200).send(result)
+    })
+}
+
+
+var updateKaryawan = (req, res) => {
+    let id = req.params.id
+    m_karyawan.findById({id:id}, (err, result) => {
+        m_karyawan.findOneAndUpdate({id:id}, {$set : {name: req.body.username }})
     })
 }
 
