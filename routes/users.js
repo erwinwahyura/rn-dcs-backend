@@ -12,5 +12,8 @@ router.post('/signup', c_auth.signUp)
 router.post('/signin', c_auth.signIn)
 
 router.get('/user', c_user.getAllUser)
+router.get('/user/:id', c_user.getUserById)
+router.delete('/user/:id', c_user.delete_user)
+router.put('/user/:id', c_user.update_user)
 
 module.exports = router;
