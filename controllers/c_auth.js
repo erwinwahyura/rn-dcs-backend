@@ -28,16 +28,18 @@ var signIn = function(req, res, next) {
 }
 
 var signUp = function(req, res, next) {
-  console.log('masuk 2');
+  console.log('masuk 2', req.body);
   var salt = bcrypt.genSaltSync(saltRounds);
   var hash = bcrypt.hashSync(req.body.password, salt);
 
   var newUser = new m_user({
     username: req.body.username,
-    email: req.body.email,
     password: hash
   })
+  console.log('object - ', newUser)
   newUser.save((err, user) => {
+    console.log('user ', user);
+
     if(err) {
       res.send(err.errors)
     } else res.send(user)

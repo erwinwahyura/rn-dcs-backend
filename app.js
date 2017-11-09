@@ -11,7 +11,12 @@ var users = require('./routes/users');
 const cors = require('cors')
 const mongoose = require('mongoose');
 // you can change database by yourself by typing your db name in below after 
-mongoose.connect('mongodb://localhost/db-dcs');
+// mongoose.connect('mongodb://localhost/db-dcs');
+var promise = mongoose.connect('mongodb://erwinwahyura:erwinwahyura@ds149855.mlab.com:49855/dcs_db', {
+  useMongoClient: true,
+  /* other options */
+});
+// mongoose.connect('mongodb://erwinwahyura:erwinwahyura@ds149855.mlab.com:49855/dcs_db')
 // mongoose.connect('mongodb://erwinwahyura:'+process.env.yourpassword+'@ds161042.mlab.com:61042/erwar-todo')
 
 var db = mongoose.connection;
@@ -38,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users/api', users);
 
-// catch 404 and forward to error handler
+// // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   var err = new Error('Not Found');
 //   err.status = 404;

@@ -4,21 +4,6 @@ var bcrypt = require('bcrypt');
 const saltRounds = 10;
 var salt = bcrypt.genSaltSync(saltRounds);
 
-var add_user = function(req, res, next) {
-  console.log('----1');
-  console.log('ihni : ',req.body);
-
-  var hash = bcrypt.hashSync(req.body.password, salt);
-  // var hash = bcrypt.hashSync(myPlaintextPassword, saltRounds);
-  var newUser = new m_user({
-    username: req.body.username,
-    password: hash
-  })
-  newUser.save(function(err, result) {
-    err ? res.status(500).send(err) :res.status(200).send(result)
-  })
-}
-
 var getAllUser = function(req, res, next) {
   m_user.find({}, function(err, result) {
     err ? res.status(500).send(err) :res.status(200).send(result)
@@ -52,7 +37,6 @@ var update_user = function(req, res, next) {
 }
 
 module.exports = {
-  add_user,
   getAllUser,
   delete_user,
   update_user,
