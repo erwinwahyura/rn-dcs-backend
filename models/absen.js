@@ -1,7 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var absen = sequelize.define('absen', {
-    id_peniliain: DataTypes.INTEGER,
     tgl: DataTypes.STRING,
     absensi: DataTypes.STRING,
     kerapian: DataTypes.STRING,
