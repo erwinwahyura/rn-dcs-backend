@@ -1,10 +1,13 @@
 const db = require('../models')
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 module.exports = {
   _create: (req, res) => {
     db.users.create({
       nama: req.body.name,
-      username: req.body.username,
+      username: bcrypt.hashSync(req.body.password, salt),
       password: req.body.password,
     })
     .then((response) => {res.status(200).send(response)})
