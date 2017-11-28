@@ -8,12 +8,11 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/signup', c_auth.signUp)
-router.post('/signin', c_auth.signIn)
+router.post('/signup', c_user._create)
+router.post('/signin', c_user._signin)
 
-router.get('/user', c_user.getAllUser)
-router.get('/user/:id', c_user.getUserById)
-router.delete('/user/:id', c_user.delete_user)
-router.put('/user/:id', c_user.update_user)
+router.get('/', c_user._read)
+router.put('/:id', c_auth.authUser, c_user._update)
+router.delete('/:id', c_auth.authUser, c_user._delete)
 
 module.exports = router;
