@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var karyawans = require('./routes/karyawans');
+var absens = require('./routes/absens');
+var penilaians = require('./routes/penilaians');
 
 const cors = require('cors')
 
@@ -26,6 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users/api', users);
+app.use('/karyawans/api', karyawans);
+app.use('/absens/api', absens);
+app.use('/penilaians/api', users);
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
