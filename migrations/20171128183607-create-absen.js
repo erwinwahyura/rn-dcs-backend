@@ -11,7 +11,7 @@ module.exports = {
       tgl: {
         type: Sequelize.STRING
       },
-      absensi: {
+      kehadiran: {
         type: Sequelize.STRING
       },
       kerapian: {

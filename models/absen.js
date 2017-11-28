@@ -2,7 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
   var absen = sequelize.define('absen', {
     tgl: DataTypes.STRING,
-    absensi: DataTypes.STRING,
+    kehadiran: DataTypes.STRING,
     kerapian: DataTypes.STRING,
     sikap: DataTypes.STRING,
     keterangan: DataTypes.STRING
