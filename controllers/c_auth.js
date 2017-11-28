@@ -6,7 +6,7 @@ module.exports = {
     authUser: function(req, res, next) {
         let token = req.headers.token
         if (!!token) {
-            jwt.verify(token, 'secret-key', (err, decoded) => {
+            jwt.verify(token, process.env.secret, (err, decoded) => {
                 if (!!err) {
                     res.status(500).send(err)
                 } else {
