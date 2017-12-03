@@ -1,9 +1,8 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var absen = sequelize.define('absen', {
-    id_karyawan: DataTypes.INTEGER,
-    tgl: DataTypes.STRING,
-    kehadiran: DataTypes.STRING,
+  var nilai = sequelize.define('nilai', {
+    id_penilaian: DataTypes.INTEGER,
+    nilai: DataTypes.STRING,
     keterangan: DataTypes.STRING
   }, {
     classMethods: {
@@ -12,5 +11,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return absen;
+  return nilai;
 };
