@@ -8,16 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      id_karyawan: {
+        type: Sequelize.INTEGER
+      },
       tgl: {
         type: Sequelize.STRING
       },
       kehadiran: {
-        type: Sequelize.STRING
-      },
-      kerapian: {
-        type: Sequelize.STRING
-      },
-      sikap: {
         type: Sequelize.STRING
       },
       keterangan: {

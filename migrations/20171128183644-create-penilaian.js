@@ -11,10 +11,10 @@ module.exports = {
       id_absen: {
         type: Sequelize.INTEGER
       },
-      id_karyawan: {
-        type: Sequelize.INTEGER
+      kerapihan: {
+        type: Sequelize.STRING
       },
-      nilai: {
+      sikap: {
         type: Sequelize.STRING
       },
       createdAt: {

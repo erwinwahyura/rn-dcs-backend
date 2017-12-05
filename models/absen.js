@@ -12,5 +12,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return absen;
+  return absen; 
 };
