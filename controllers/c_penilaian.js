@@ -2,7 +2,7 @@ const db = require('../models')
 
 module.exports = {
     _create: (req, res) => {
-        db.penilaians.create({
+        db.penilaian.create({
             id_absen: req.body.id_absen,
             id_karyawan: req.body.id_karyawan,
             nilai: req.body.nilai,
@@ -15,8 +15,8 @@ module.exports = {
         // FROM ((Orders
         // INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID)
         // INNER JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID);
-        db.penilaians.sequelize.query(`
-            SELECT 
+        db.penilaian.sequelize.query(`
+            SELECT
                    karyawans.nip,
                    karyawans.nama,
                    karyawans.jabatan,
@@ -38,8 +38,8 @@ module.exports = {
         .catch((err) => {res.status(400).send(err)})
     },
     _readOne: (req, res) => {
-        db.penilaians.sequelize.query(`
-            SELECT 
+        db.penilaian.sequelize.query(`
+            SELECT
                    karyawans.nip,
                    karyawans.nama,
                    karyawans.jabatan,
@@ -62,13 +62,13 @@ module.exports = {
         .catch((err) => {res.status(400).send(err)})
     },
     _update: (req, res) => {
-        db.penilaians.findOne({
+        db.penilaian.findOne({
             where: {
                 id: req.params.id
             }
         })
         .then((response) => {
-            db.penilaians.update({
+            db.penilaian.update({
                 id_absen: req.body.id_absen === null ? response.id_absen : req.body.id_absen,
                 id_karyawan: req.body.id_karyawan === null ? response.id_karyawan : req.body.id_karyawan,
                 nilai: req.body.nilai === null ? response.nilai : req.body.nilai,
@@ -83,13 +83,13 @@ module.exports = {
         .catch((err) => {res.status(400).send(err)})
     },
     _delete: (req, res) => {
-        db.penilaians.findOne({
+        db.penilaian.findOne({
             where: {
               id: req.params.id
             }
         })
         .then((response) => {
-            db.penilaians.destroy({
+            db.penilaian.destroy({
               where: {
                 id: response.id
               }

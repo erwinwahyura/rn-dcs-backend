@@ -2,7 +2,7 @@ const db = require('../models')
 
 module.exports = {
     _create: (req, res) => {
-        db.karyawans.create({
+        db.karyawan.create({
             nip: req.body.nip,
             nama: req.body.nama,
             jabatan: req.body.jabatan,
@@ -13,18 +13,18 @@ module.exports = {
         .catch((err) => {res.status(400).send(err)})
     },
     _read: (req, res) => {
-        db.karyawans.findAll({})
+        db.karyawan.findAll({})
         .then((response) => {res.status(200).send(response)})
         .catch((err) => {res.status(400).send(err)})
     },
     _update: (req, res) => {
-        db.karyawans.findOne({
+        db.karyawan.findOne({
             where: {
                 id: req.params.id
             }
         })
         .then((response) => {
-            db.karyawans.update({
+            db.karyawan.update({
                 nip: req.body.nip === null ? response.nip : req.body.nip,
                 nama: req.body.nama === null ? response.nama : req.body.nama,
                 jabatan: req.body.jabatan === null ? response.jabatan : req.body.jabatan,
@@ -42,13 +42,13 @@ module.exports = {
         .catch((err) => {res.status(400).send(err)})
     },
     _delete: (req, res) => {
-        db.karyawans.findOne({
+        db.karyawan.findOne({
             where: {
               id: req.params.id
             }
         })
         .then((response) => {
-            db.karyawans.destroy({
+            db.karyawan.destroy({
               where: {
                 id: response.id
               }

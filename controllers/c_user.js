@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 
 module.exports = {
   _create: (req, res) => {
-    db.users.create({
+    db.user.create({
       nama: req.body.name,
       username: bcrypt.hashSync(req.body.password, salt),
       password: req.body.password,
@@ -17,7 +17,7 @@ module.exports = {
   _signin: (req, res) => {
     var username = req.body.username
     var checkPassword = req.body.password
-    db.users
+    db.user
     .findOne({
         where: {
             username: username
@@ -38,18 +38,18 @@ module.exports = {
     })
   },
   _read: (req, res) => {
-    db.users.findAll({})
+    db.user.findAll({})
     .then((response) => {res.status(200).send(response)})
     .catch((err) => {res.status(400).send(err)})
   },
   _update: (req, res) => {
-    db.users.findOne({
+    db.user.findOne({
       where: {
         id: req.params.id
       }
     })
     .then((response) => {
-      db.users.update({
+      db.user.update({
         nama: req.body.nama === null ? response.nama : req.body.nama,
         username: req.body.username === null ? response.username : req.body.username,
         password: req.body.password === null ? response.password : req.body.password,
@@ -64,13 +64,13 @@ module.exports = {
     .catch((err) => {res.status(400).send(err)})
   },
   _delete: (req, res) => {
-    db.users.findOne({
+    db.user.findOne({
       where: {
         id: req.params.id
       }
     })
     .then((response) => {
-      db.users.destroy({
+      db.user.destroy({
         where: {
           id: response.id
         }

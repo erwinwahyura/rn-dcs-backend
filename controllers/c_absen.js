@@ -2,7 +2,7 @@ const db = require('../models')
 
 module.exports = {
     _create: (req, res) => {
-        db.absens.create({
+        db.absen.create({
             tgl: new Date(),
             kehadiran: req.body.kehadiran,
             kerapian: req.body.kerapian,
@@ -13,18 +13,18 @@ module.exports = {
         .catch((err) => {res.status(400).send(err)})
     },
     _read: (req, res) => {
-        db.absens.findAll({})
+        db.absen.findAll({})
         .then((response) => {res.status(200).send(response)})
         .catch((err) => {res.status(400).send(err)})
     },
     _update: (req, res) => {
-        db.absens.findOne({
+        db.absen.findOne({
             where: {
                 id: req.params.id
             }
         })
         .then((response) => {
-            db.absens.update({
+            db.absen.update({
                 kehadiran: req.body.kehadiran === null ? response.kehadiran : req.body.kehadiran,
                 kerapian: req.body.kerapian === null ? response.kerapian : req.body.kerapian,
                 sikap: req.body.sikap === null ? response.sikap : req.body.sikap,
@@ -41,13 +41,13 @@ module.exports = {
         .catch((err) => {res.status(400).send(err)})
     },
     _delete: (req, res) => {
-        db.absens.findOne({
+        db.absen.findOne({
             where: {
               id: req.params.id
             }
         })
         .then((response) => {
-            db.absens.destroy({
+            db.absen.destroy({
               where: {
                 id: response.id
               }

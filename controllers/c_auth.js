@@ -10,7 +10,7 @@ module.exports = {
                 if (!!err) {
                     res.status(500).send(err)
                 } else {
-                    db.users.findOne({
+                    db.user.findOne({
                         where: {
                             id: decoded.id
                         }
