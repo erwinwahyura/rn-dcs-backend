@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 module.exports = {
   _create: (req, res) => {
     db.user.create({
-      nama: req.body.name,
+      nama: req.body.nama,
       username: bcrypt.hashSync(req.body.password, salt),
       password: req.body.password,
     })
