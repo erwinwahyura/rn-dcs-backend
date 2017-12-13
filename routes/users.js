@@ -4,9 +4,9 @@ var c_auth = require('../controllers/c_auth')
 var c_user = require('../controllers/c_user')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+// router.get('/', function(req, res, next) {
+//   res.send('respond with a resource');
+// });
 
 router.post('/signup', c_user._create)
 router.post('/signin', c_user._signin)
