@@ -5,9 +5,9 @@ var c_karyawan = require('../controllers/c_karyawan')
 
 /* GET users listing. */
 
-router.post('/', c_auth.authUser, c_karyawan._create)
+router.post('/', c_karyawan._create)
 router.get('/', c_karyawan._read)
-router.put('/:id', c_auth.authUser, c_karyawan._update)
-router.delete('/:id', c_auth.authUser, c_karyawan._delete)
+router.put('/:id', c_karyawan._update)
+router.delete('/:id', c_karyawan._delete)
 
 module.exports = router;

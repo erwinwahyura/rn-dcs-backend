@@ -7,7 +7,7 @@ var c_user = require('../controllers/c_user')
 // router.get('/', function(req, res, next) {
 //   res.send('respond with a resource');
 // });
-
+// didnt use any this
 router.post('/signup', c_user._create)
 router.post('/signin', c_user._signin)
 

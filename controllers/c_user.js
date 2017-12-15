@@ -1,10 +1,11 @@
 const db = require('../models')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 const jwt = require('jsonwebtoken')
 
 module.exports = {
+  //not use
   _create: (req, res) => {
     db.user.create({
       nama: req.body.nama,
@@ -14,16 +15,17 @@ module.exports = {
     .then((response) => {res.status(200).send(response)})
     .catch((err) => {res.status(400).send(err)})
   },
+  //not use
   _signin: (req, res) => {
-    var username = req.body.username
-    var checkPassword = req.body.password
-    db.user
-    .findOne({
-        where: {
-            username: username
-        }
+    console.log(req.body);
+    db.user.findOne({
+      where: {
+        username: req.body.username
+      }
     })
     .then((response) => {
+      console.log('test - ',response);
+      res.send(response)
         bcrypt.compare(req.body.password, response.password, (err,resp) => {
             if (resp === true) {
                 const token = jwt.sign({id: response.id, name: response.name}, process.env.secretKey)
