@@ -2,8 +2,10 @@
 module.exports = function(sequelize, DataTypes) {
   var penilaian = sequelize.define('penilaian', {
     id_absen: DataTypes.INTEGER,
-    kerapihan: DataTypes.STRING,
-    sikap: DataTypes.STRING
+    kehadiran: DataTypes.INTEGER,
+    kerapihan: DataTypes.INTEGER,
+    sikap: DataTypes.INTEGER,
+    tag: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

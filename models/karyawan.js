@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var karyawan = sequelize.define('karyawan', {
-    nip: DataTypes.INTEGER,
+    nip: DataTypes.STRING,
     nama: DataTypes.STRING,
     jabatan: DataTypes.STRING,
     pangkat: DataTypes.STRING,

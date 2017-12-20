@@ -3,11 +3,8 @@ const db = require('../models')
 module.exports = {
     _create: (req, res) => {
         db.absen.create({
-            tgl: new Date(),
-            kehadiran: req.body.kehadiran,
-            kerapian: req.body.kerapian,
-            sikap: req.body.sikap,
-            keterangan: req.body.keterangan,
+            tgl: Date(),
+            id_karyawan: req.body.id_karyawan
         })
         .then((response) => {res.status(200).send(response)})
         .catch((err) => {res.status(400).send(err)})
@@ -25,10 +22,7 @@ module.exports = {
         })
         .then((response) => {
             db.absen.update({
-                kehadiran: req.body.kehadiran === null ? response.kehadiran : req.body.kehadiran,
-                kerapian: req.body.kerapian === null ? response.kerapian : req.body.kerapian,
-                sikap: req.body.sikap === null ? response.sikap : req.body.sikap,
-                keterangan: req.body.keterangan === null ? response.keterangan : req.body.keterangan,
+                id_karyawan: req.body.id_karyawan === null ? response.id_karyawan : req.body.id_karyawan,
                 updatedAt: new Date()
             }, {
                 where: {

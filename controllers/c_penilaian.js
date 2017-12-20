@@ -4,8 +4,10 @@ module.exports = {
     _create: (req, res) => {
         db.penilaian.create({
             id_absen: req.body.id_absen,
-            id_karyawan: req.body.id_karyawan,
-            nilai: req.body.nilai,
+            kehadiran: req.body.kehadiran,
+            kerapihan: req.body.kerapihan,
+            sikap: req.body.sikap,
+            tag: req.body.tag,
         })
         .then((response) => {res.status(200).send(response)})
         .catch((err) => {res.status(400).send(err)})
@@ -17,47 +19,40 @@ module.exports = {
         // INNER JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID);
         db.penilaian.sequelize.query(`
             SELECT
-                   karyawans.nip,
-                   karyawans.nama,
-                   karyawans.jabatan,
-                   karyawans.pangkat,
-                   karyawans.gol,
-                   penilaians.nilai,
-                   penilaians.id_absen,
-                   penilaians.id_karyawan,
-                   absens.tgl,
-                   absens.kehadiran,
-                   absens.kerapian,
-                   absens.sikap,
-                   absens.keterangan
-            FROM (( penilaians
-            LEFT JOIN karyawans ON penilaians.id_karyawan = karyawans.id)
+                penilaians.id, 
+                penilaians.kehadiran, 
+                penilaians.kerapihan, 
+                penilaians.sikap,
+                penilaians.tag as tag_penilaian,
+                absens.id as absen_id, 
+                absens.tgl,
+                karyawans.id as karyawan_id,
+                karyawans.nama
+            FROM ((penilaians
             LEFT JOIN absens ON penilaians.id_absen = absens.id)
-        `)
+            LEFT JOIN karyawans ON absens.id_karyawan = karyawans.id)
+        `        
+        ,{ type: db.penilaian.sequelize.QueryTypes.SELECT })
         .then((response) => {res.status(200).send(response)})
         .catch((err) => {res.status(400).send(err)})
     },
     _readOne: (req, res) => {
         db.penilaian.sequelize.query(`
-            SELECT
-                   karyawans.nip,
-                   karyawans.nama,
-                   karyawans.jabatan,
-                   karyawans.pangkat,
-                   karyawans.gol,
-                   penilaians.nilai,
-                   penilaians.id_absen,
-                   penilaians.id_karyawan,
-                   absens.tgl,
-                   absens.kehadiran,
-                   absens.kerapian,
-                   absens.sikap,
-                   absens.keterangan
-            FROM (( penilaians
-            LEFT JOIN karyawans ON penilaians.id_karyawan = karyawans.id)
+                SELECT
+                penilaians.id, 
+                penilaians.kehadiran, 
+                penilaians.kerapihan, 
+                penilaians.sikap,
+                penilaians.tag as tag_penilaian,
+                absens.id as absen_id, 
+                absens.tgl,
+                karyawans.id as karyawan_id,
+                karyawans.nama
+            FROM ((penilaians
             LEFT JOIN absens ON penilaians.id_absen = absens.id)
-            WHERE penilaians.id_karyawan = ${req.params.id_karyawan}
-        `)
+            LEFT JOIN karyawans ON absens.id_karyawan = karyawans.id)
+            WHERE karyawans.id = ${req.params.id}
+        ` ,{ type: db.penilaian.sequelize.QueryTypes.SELECT })
         .then((response) => {res.status(200).send(response)})
         .catch((err) => {res.status(400).send(err)})
     },
@@ -70,8 +65,9 @@ module.exports = {
         .then((response) => {
             db.penilaian.update({
                 id_absen: req.body.id_absen === null ? response.id_absen : req.body.id_absen,
-                id_karyawan: req.body.id_karyawan === null ? response.id_karyawan : req.body.id_karyawan,
-                nilai: req.body.nilai === null ? response.nilai : req.body.nilai,
+                kehadiran: req.body.kehadiran === null ? response.kehadiran : req.body.kehadiran,
+                kerapihan: req.body.kerapihan === null ? response.kerapihan : req.body.kerapihan,
+                sikap: req.body.sikap === null ? response.sikap : req.body.sikap,
             }, {
                 where: {
                     id: response.id

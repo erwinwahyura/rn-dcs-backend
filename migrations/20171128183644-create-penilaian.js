@@ -11,10 +11,16 @@ module.exports = {
       id_absen: {
         type: Sequelize.INTEGER
       },
+      kehadiran: {
+        type: Sequelize.INTEGER
+      },
       kerapihan: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       sikap: {
+        type: Sequelize.INTEGER
+      },
+      tag: {
         type: Sequelize.STRING
       },
       createdAt: {

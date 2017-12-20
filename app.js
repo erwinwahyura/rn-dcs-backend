@@ -31,7 +31,7 @@ app.use('/', index);
 app.use('/users/api', users);
 app.use('/karyawans/api', karyawans);
 app.use('/absens/api', absens);
-app.use('/penilaians/api', users);
+app.use('/penilaians/api', penilaians);
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

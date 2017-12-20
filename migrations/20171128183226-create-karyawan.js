@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nip: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       nama: {
         type: Sequelize.STRING
