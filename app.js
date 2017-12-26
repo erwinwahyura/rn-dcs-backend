@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var karyawans = require('./routes/karyawans');
 var absens = require('./routes/absens');
 var penilaians = require('./routes/penilaians');
+var proses = require('./routes/process');
 
 const cors = require('cors')
 
@@ -32,6 +33,7 @@ app.use('/users/api', users);
 app.use('/karyawans/api', karyawans);
 app.use('/absens/api', absens);
 app.use('/penilaians/api', penilaians);
+app.use('/proses/api', proses);
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
