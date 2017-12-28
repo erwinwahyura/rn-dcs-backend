@@ -27,6 +27,7 @@ var zData=[];
 var aNo = 1;
 var zNo = 1;
 
+var dataResultDefuzzyfikasi = [];
 
 var getDataByWeek  = (req, res) => {
     return new Promise((resolve, reject) => {
@@ -58,24 +59,54 @@ var getDataByWeek  = (req, res) => {
 var fuzzyNR = (req, res) => {
    
     //output fuzzy
-    let nBaik = (aPredikat) => {
+    let nBaik = (aPredikat, id) => {
         var temp;
         temp = 3 * aPredikat;
         zResult = 8 + temp;
         // var temp = 'z'+zNo;
-        zData.push({'z': zResult, 'no': zNo ,'status': 'Baik'});
+        zData.push({'id': id, 'z': zResult, 'no': zNo ,'status': 'Baik'});
         zNo+=1;
         return zResult;
     }
 
-    let nBuruk = (aPredikat) => {
+    let nBuruk = (aPredikat, id) => {
         var temp;
         temp = 2 * aPredikat;
         zResult = 5 + temp;
-        zData.push({'z': zResult, 'no': zNo, 'status': 'Buruk'});
+        zData.push({'id': id, 'z': zResult, 'no': zNo, 'status': 'Buruk'});
         zNo+=1;
         return zResult;
     }
+
+    //defuzzyfikasi the last things using methode weight average
+
+    let defuzzyfikasi = (dataKaryawan, nilaiA, nilaiZ) => {
+        for (var i = 0; i<dataKaryawan.length; i++) {
+            var atas = 0;
+            var bawah = 0;
+            for (var a = 0; a<nilaiA.length; a++) {
+              var hasilKali = 0;
+              var hasilBawah = 0;
+              for (var z = 0; z<nilaiZ.length; z++) {
+                if (dataKaryawan[i].id === nilaiA[a].id && a === z && nilaiA[a].a !== 0 && nilaiA[a].id === nilaiZ[z].id  && nilaiA[a].no === nilaiZ[z].no) {
+                  hasilKali = nilaiA[a].a * nilaiZ[z].z;
+                  atas += hasilKali;
+                  bawah += nilaiA[a].a;
+                }
+              }
+            }
+            var hasil = atas / bawah;
+            var keterangan = '';
+            if (hasil >5) {
+                keterangan = 'baik';
+            } else {
+                keterangan = 'buruk';
+            }
+            dataResultDefuzzyfikasi.push({'id': dataKaryawan[i].id, 'nama': dataKaryawan[i].nama, 'nilai_karywan': hasil, 'keterangan': keterangan})
+        }
+    }
+
+    //end of defuzzifikasi
     
 
     let rule = (obj) => {
@@ -103,7 +134,7 @@ var fuzzyNR = (req, res) => {
         var sikap = [];
         sikap.push(s_r, s_b, s_sb);
 
-        let mainRule = (kehadiranParam, kerapihanParam, sikapParam, status) => {
+        let mainRule = (kehadiranParam, kerapihanParam, sikapParam, status, id) => {
             var arr = [];
             arr.push(kehadiranParam, kerapihanParam, sikapParam);
             var min = arr[0];
@@ -115,33 +146,35 @@ var fuzzyNR = (req, res) => {
             }
             aPredikat = min;
             // var temp = 'a'+aNo;
-            aData.push({'a': aPredikat, 'no': aNo})
+            aData.push({'id': id, 'a': aPredikat, 'no': aNo});
             aNo+=1;
             if (status === 'baik') {
-                nBaik(aPredikat)
+                nBaik(aPredikat, id)
             } else if (status === 'buruk') {
-                nBuruk(aPredikat);
+                nBuruk(aPredikat, id);
             }
         } 
 
         // generate nilai aPredikat sesuai 27 rule below!;
-        var ceklloop = 1;
+        // var ceklloop = 1;
         for (var i = 0; i<kehadiran.length; i++) {
             for (var j = 0; j<kerapihan.length; j++) {
                 for (var l = 0; l<sikap.length; l++) {
                     if ((i === 0 && j === 0) || (j === 0 && l === 0) || (l === 0 && i ===0)) {
-                        mainRule(kehadiran[i], kerapihan[j], sikap[l], 'buruk');
+                        mainRule(kehadiran[i], kerapihan[j], sikap[l], 'buruk', x.id);
                     } else {
-                        mainRule(kehadiran[i], kerapihan[j], sikap[l], 'baik');
+                        mainRule(kehadiran[i], kerapihan[j], sikap[l], 'baik', x.id);
                     }
-
-                    console.log(ceklloop)
-                    ceklloop++;
+                    // console.log(ceklloop)
+                    // ceklloop++;
                 }
             }
         }
-
+        aNo = 1;
+        zNo = 1;
+        
     };
+
 
     var week = req.body.week;
     console.log('bodynya  - ', week)
@@ -356,7 +389,7 @@ var fuzzyNR = (req, res) => {
             fuzzySikap(x.total_sikap)
             
         })
-        console.log('======================',JSON.stringify(bigData));
+        // console.log('======================',JSON.stringify(bigData));
         
     })
     .then(() => {
@@ -364,13 +397,15 @@ var fuzzyNR = (req, res) => {
             rule(x)
         })
 
-        console.log('anya : ', aData)
-        console.log('znya : ', zData)
-    })
+        // console.log('anya : ', aData)
+        // console.log('znya : ', zData)
+        // console.log('bigdatanya: ', bigData)
+        
+        defuzzyfikasi(bigData, aData, zData);
 
-    // .then((hai) => {
-    //     console.log('object', hai)
-    // })
+        console.log('hasil : ',dataResultDefuzzyfikasi)
+    })
+    .then(console.log('sukses generate proses fuzzy penilaian!'))
 };
 
 
