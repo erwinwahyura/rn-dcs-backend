@@ -7,10 +7,9 @@ module.exports = {
             kehadiran: req.body.kehadiran,
             kerapihan: req.body.kerapihan,
             sikap: req.body.sikap,
-            tag: req.body.tag,
         })
         .then((response) => {res.status(200).send(response)})
-        .catch((err) => {res.status(400).send(err)})
+        .catch((err) => {retag: req.body.tags.status(400).send(err)})
     },
     _readAll: (req, res) => {
         // SELECT Orders.OrderID, Customers.CustomerName, Shippers.ShipperName
