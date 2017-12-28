@@ -1,4 +1,3 @@
-//generate proses fuzzynya
 const db = require('../models');
 
 var dataNR;
@@ -63,7 +62,6 @@ var fuzzyNR = (req, res) => {
         var temp;
         temp = 3 * aPredikat;
         zResult = 8 + temp;
-        // var temp = 'z'+zNo;
         zData.push({'id': id, 'z': zResult, 'no': zNo ,'status': 'Baik'});
         zNo+=1;
         return zResult;
@@ -78,7 +76,7 @@ var fuzzyNR = (req, res) => {
         return zResult;
     }
 
-    //defuzzyfikasi the last things using methode weight average
+    //defuzzyfikasi the last things, using methode weight average
 
     let defuzzyfikasi = (dataKaryawan, nilaiA, nilaiZ) => {
         for (var i = 0; i<dataKaryawan.length; i++) {
@@ -105,9 +103,8 @@ var fuzzyNR = (req, res) => {
             dataResultDefuzzyfikasi.push({'id': dataKaryawan[i].id, 'nama': dataKaryawan[i].nama, 'nilai_karywan': hasil, 'keterangan': keterangan})
         }
     }
-
-    //end of defuzzifikasi
     
+// fuzzy rule
 
     let rule = (obj) => {
         
@@ -134,6 +131,7 @@ var fuzzyNR = (req, res) => {
         var sikap = [];
         sikap.push(s_r, s_b, s_sb);
 
+        // mainRule rule of fuzzy
         let mainRule = (kehadiranParam, kerapihanParam, sikapParam, status, id) => {
             var arr = [];
             arr.push(kehadiranParam, kerapihanParam, sikapParam);
@@ -156,7 +154,7 @@ var fuzzyNR = (req, res) => {
         } 
 
         // generate nilai aPredikat sesuai 27 rule below!;
-        // var ceklloop = 1;
+
         for (var i = 0; i<kehadiran.length; i++) {
             for (var j = 0; j<kerapihan.length; j++) {
                 for (var l = 0; l<sikap.length; l++) {
@@ -165,8 +163,6 @@ var fuzzyNR = (req, res) => {
                     } else {
                         mainRule(kehadiran[i], kerapihan[j], sikap[l], 'baik', x.id);
                     }
-                    // console.log(ceklloop)
-                    // ceklloop++;
                 }
             }
         }
@@ -174,7 +170,6 @@ var fuzzyNR = (req, res) => {
         zNo = 1;
         
     };
-
 
     var week = req.body.week;
     console.log('bodynya  - ', week)
@@ -400,7 +395,7 @@ var fuzzyNR = (req, res) => {
         // console.log('anya : ', aData)
         // console.log('znya : ', zData)
         // console.log('bigdatanya: ', bigData)
-        
+
         defuzzyfikasi(bigData, aData, zData);
 
         console.log('hasil : ',dataResultDefuzzyfikasi)
