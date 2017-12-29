@@ -396,9 +396,10 @@ var fuzzyNR = (req, res) => {
         // console.log('znya : ', zData)
         // console.log('bigdatanya: ', bigData)
 
-        defuzzyfikasi(bigData, aData, zData);
-
-        console.log('hasil : ',dataResultDefuzzyfikasi)
+        return defuzzyfikasi(bigData, aData, zData);
+    })
+    .then(() => {
+        res.status(200).send(dataResultDefuzzyfikasi);
     })
     .then(console.log('sukses generate proses fuzzy penilaian!'))
 };
