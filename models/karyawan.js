@@ -4,8 +4,6 @@ module.exports = function(sequelize, DataTypes) {
     nip: DataTypes.STRING,
     nama: DataTypes.STRING,
     jabatan: DataTypes.STRING,
-    pangkat: DataTypes.STRING,
-    gol: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
