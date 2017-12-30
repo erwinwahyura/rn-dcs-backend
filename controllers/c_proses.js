@@ -61,18 +61,21 @@ var fuzzyNR = (req, res) => {
     let nBaik = (aPredikat, id) => {
         var temp;
         temp = 3 * aPredikat;
-        zResult = 8 + temp;
+        zResult = 5 + temp;
         zData.push({'id': id, 'z': zResult, 'no': zNo ,'status': 'Baik'});
         zNo+=1;
+        // console.log('Hasil BAIK: ',zResult)
         return zResult;
     }
 
     let nBuruk = (aPredikat, id) => {
-        var temp;
+        var temp, temp2;
         temp = 2 * aPredikat;
-        zResult = 5 + temp;
+        temp2 = temp - 5;
+        zResult = temp2 * (-1) 
         zData.push({'id': id, 'z': zResult, 'no': zNo, 'status': 'Buruk'});
         zNo+=1;
+        // console.log('Hasil BURUK: ',zResult)
         return zResult;
     }
 
@@ -87,20 +90,24 @@ var fuzzyNR = (req, res) => {
               var hasilBawah = 0;
               for (var z = 0; z<nilaiZ.length; z++) {
                 if (dataKaryawan[i].id === nilaiA[a].id && a === z && nilaiA[a].a !== 0 && nilaiA[a].id === nilaiZ[z].id  && nilaiA[a].no === nilaiZ[z].no) {
+                  console.log('defuzzy fikasi : ', nilaiA[a].a, nilaiZ[z].z)
+                  
                   hasilKali = nilaiA[a].a * nilaiZ[z].z;
                   atas += hasilKali;
                   bawah += nilaiA[a].a;
                 }
               }
             }
+            console.log('total nilai b ', bawah, ' nilai a: ', atas)
             var hasil = atas / bawah;
+            console.log('hasil : ', hasil)
             var keterangan = '';
             if (hasil >5) {
                 keterangan = 'baik';
             } else {
                 keterangan = 'buruk';
             }
-            dataResultDefuzzyfikasi.push({'id': dataKaryawan[i].id, 'nama': dataKaryawan[i].nama, 'nilai_karywan': hasil, 'keterangan': keterangan})
+            dataResultDefuzzyfikasi.push({'id': dataKaryawan[i].id, 'nama': dataKaryawan[i].nama, 'nilai_karywan': hasil, 'keterangan': keterangan, 'absen': dataKaryawan.tag})
         }
     }
     
@@ -140,9 +147,11 @@ var fuzzyNR = (req, res) => {
             for (var i = 0; i<arr.length; i++) {
                 if (min > arr[i]) {
                     min = arr[i]
+                    console.log(aNo, 'min implikasi fuzzy : ', min)
                 }
             }
             aPredikat = min;
+            console.log('nilai min dari 3 kondisi sesuai rule : ', aPredikat)
             // var temp = 'a'+aNo;
             aData.push({'id': id, 'a': aPredikat, 'no': aNo});
             aNo+=1;
@@ -151,6 +160,7 @@ var fuzzyNR = (req, res) => {
             } else if (status === 'buruk') {
                 nBuruk(aPredikat, id);
             }
+            console.log('idnya karyawan : ',id, 'menggunakan rumus : ',status)
         } 
 
         // generate nilai aPredikat sesuai 27 rule below!;
@@ -172,11 +182,11 @@ var fuzzyNR = (req, res) => {
     };
 
     var week = req.body.week;
-    console.log('bodynya  - ', week)
-    let fuzzyKehadiran = (nilai_input, id, nama) => {
-        console.log('mnasuukkk ',nilai_input)
-        var nilai_x = Number(String(Number(nilai_input) / 7).substr(0,4));
-        console.log('k - nilai x - : ', nilai_x)
+    // console.log('bodynya  - ', week)
+    let fuzzyKehadiran = (nilai_input, id, nama, tag) => {
+        // console.log('mnasuukkk ',nilai_input)
+        var nilai_x = Number(String(Number(nilai_input) / 5).substr(0,4));
+        console.log('namanya: ',nama , 'k - nilai x - : ', nilai_x)
         let nRendah = (x) => {
             if (x < 3) {
                 nRendahKehadiran = 1;
@@ -192,7 +202,7 @@ var fuzzyNR = (req, res) => {
             if (x === 6) {
                 nBaikKehadiran = 1;
             } else if (x >= 6 && x < 8) {
-                nBaikKehadiran = ((6 - x) / 2);
+                nBaikKehadiran = ((8 - x) / 2);
             } else if (x >= 4 && x < 6) {
                 nBaikKehadiran = ((x - 4) / 2);
             } else if (x < 4 || x >= 8) {
@@ -223,7 +233,8 @@ var fuzzyNR = (req, res) => {
                 { 'r' : nRendahKehadiran }, 
                 { 'b' : nBaikKehadiran },
                 { 'sb': nSangatBaikKehadiran }
-            ]
+            ],
+            'tag': tag
         };
         // console.log('kehadiran : ', nKehadiran)
         Object.assign(nObject, temp_nKehadiran);
@@ -234,7 +245,7 @@ var fuzzyNR = (req, res) => {
     };
 
     let fuzzyKerapihan = (nilai_input) => {
-        var nilai_x = Number(String(Number(nilai_input) / 7).substr(0,4));
+        var nilai_x = Number(String(Number(nilai_input) / 5).substr(0,4));
         console.log('Kerapihan - nilai x - : ', nilai_x)
         let nRendah = (x) => {
             if (x < 2) {
@@ -245,20 +256,20 @@ var fuzzyNR = (req, res) => {
                 nRendahKerapihan = 0;
             }
             return nRendahKerapihan;
-        }
+        };
 
         let nBaik = (x) => {
             if (x === 3) {
                 nBaikKerapihan = 1;
             } else if (x >= 3 && x < 4) {
-                nBaikKerapihan = ((3 - x) / 1);
+                nBaikKerapihan = ((4 - x) / 1);
             } else if (x >= 2 && x < 3) {
                 nBaikKerapihan = ((x - 2) / 1);
             } else if (x < 2 || x >= 4 ) {
                 nBaikKerapihan = 0;
             }
             return nBaikKerapihan;
-        }
+        };
 
         let nSangatBaik = (x) => {
             if (x >= 4.5) {
@@ -269,7 +280,8 @@ var fuzzyNR = (req, res) => {
                 nSangatBaikKerapihan = 0;
             }
             return nSangatBaikKerapihan;
-        }
+        };
+
         nBaik(nilai_x);
         nRendah(nilai_x);
         nSangatBaik(nilai_x);
@@ -291,7 +303,7 @@ var fuzzyNR = (req, res) => {
     };
 
     let fuzzySikap = (nilai_input) => {
-        var nilai_x = Number(String(Number(nilai_input) / 7).substr(0,4));
+        var nilai_x = Number(String(Number(nilai_input) / 5).substr(0,4));
         console.log('Sikap - nilai x : ', nilai_x)
         let nRendah = (x) => {
             if (x < 2) {
@@ -308,7 +320,7 @@ var fuzzyNR = (req, res) => {
             if (x === 3) {
                 nBaikSikap = 1;
             } else if (x >= 3 && x < 4) {
-                nBaikSikap = ((3 - x) / 1);
+                nBaikSikap = ((4 - x) / 1);
             } else if (x >= 2 && x < 3) {
                 nBaikSikap = ((x - 2) / 1);
             } else if (x < 2 || x >= 4 ) {
@@ -321,7 +333,7 @@ var fuzzyNR = (req, res) => {
             if (x >= 4.5) {
                 nSangatBaikSikap = 1;
             } else if (x > 3.5 && x < 4.5) {
-                nSangatBaikSikap = ((x- 3.5) / 1);
+                nSangatBaikSikap = ((x - 3.5) / 1);
             } else if (x <= 3.5) {
                 nSangatBaikSikap = 0;
             }
@@ -363,7 +375,7 @@ var fuzzyNR = (req, res) => {
                 `SELECT 
                     SUM (penilaians.sikap) as "total_sikap", 
                     SUM (penilaians.kehadiran) as "total_kehadiran",
-                    SUM (penilaians.kerapihan) as "total_kerapihan", 
+                    SUM (penilaians.kerapihan) as "total_kerapihan",
                     absens.id, karyawans.nama
                 FROM penilaians 
                     LEFT JOIN absens on penilaians.id_absen = absens.id
@@ -376,7 +388,7 @@ var fuzzyNR = (req, res) => {
         });
     };
 
-    getData(week)
+    getData(req.body.week)
     .then((result) => {
         result.map(x => {
             fuzzyKehadiran(x.total_kehadiran, x.id, x.nama)
@@ -385,6 +397,8 @@ var fuzzyNR = (req, res) => {
             
         })
         // console.log('======================',JSON.stringify(bigData));
+
+        // console.log('================INI============', result)
         
     })
     .then(() => {
@@ -394,12 +408,14 @@ var fuzzyNR = (req, res) => {
 
         // console.log('anya : ', aData)
         // console.log('znya : ', zData)
-        // console.log('bigdatanya: ', bigData)
+        console.log('bigdatanya: ', JSON.stringify(bigData));
 
         return defuzzyfikasi(bigData, aData, zData);
     })
     .then(() => {
-        res.status(200).send(dataResultDefuzzyfikasi);
+        var data = dataResultDefuzzyfikasi;
+        dataResultDefuzzyfikasi = [];
+        res.status(200).send(data);
     })
     .then(console.log('sukses generate proses fuzzy penilaian!'))
 };
