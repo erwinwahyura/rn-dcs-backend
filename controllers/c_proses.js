@@ -61,7 +61,7 @@ var fuzzyNR = (req, res) => {
     let nBaik = (aPredikat, id) => {
         var temp;
         temp = 3 * aPredikat;
-        zResult = 5 + temp;
+        zResult = 6 + temp;
         zData.push({'id': id, 'z': zResult, 'no': zNo ,'status': 'Baik'});
         zNo+=1;
         // console.log('Hasil BAIK: ',zResult)
@@ -71,7 +71,7 @@ var fuzzyNR = (req, res) => {
     let nBuruk = (aPredikat, id) => {
         var temp, temp2;
         temp = 2 * aPredikat;
-        temp2 = temp - 5;
+        temp2 = temp - 6;
         zResult = temp2 * (-1) 
         zData.push({'id': id, 'z': zResult, 'no': zNo, 'status': 'Buruk'});
         zNo+=1;
@@ -102,7 +102,7 @@ var fuzzyNR = (req, res) => {
             var hasil = atas / bawah;
             console.log('hasil : ', hasil)
             var keterangan = '';
-            if (hasil >5) {
+            if (hasil >=6) {
                 keterangan = 'baik';
             } else {
                 keterangan = 'buruk';
@@ -246,7 +246,7 @@ var fuzzyNR = (req, res) => {
 
     let fuzzyKerapihan = (nilai_input) => {
         var nilai_x = Number(String(Number(nilai_input) / 5).substr(0,4));
-        console.log('Kerapihan - nilai x - : ', nilai_x)
+        console.log('Kerapihan - nilai x - : ', nilai_x);
         let nRendah = (x) => {
             if (x < 2) {
                 nRendahKerapihan = 1;
