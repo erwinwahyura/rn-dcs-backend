@@ -7,6 +7,7 @@ var c_absen = require('../controllers/c_absen')
 
 router.post('/', c_absen._create)
 router.get('/', c_absen._read)
+router.get('/detail', c_absen._readDetail)
 router.put('/:id', c_absen._update)
 router.delete('/:id', c_absen._delete)
 
