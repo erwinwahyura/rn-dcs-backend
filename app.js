@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+//var users = require('./routes/users');
 var karyawans = require('./routes/karyawans');
 var absens = require('./routes/absens');
 var penilaians = require('./routes/penilaians');
@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users/api', users);
+//app.use('/users/api', users);
 app.use('/karyawans/api', karyawans);
 app.use('/absens/api', absens);
 app.use('/penilaians/api', penilaians);
