@@ -14,6 +14,18 @@ module.exports = {
         .then((response) => {res.status(200).send(response)})
         .catch((err) => {res.status(400).send(err)})
     },
+    _readDetail: (req, res) => {
+        db.absen.sequelize.query(`
+            Select absens.id as "ID", 
+                   absens.tgl,
+                   absens.id_karyawan,
+                   karyawans.nama
+            FROM absens
+            LEFT JOIN karyawans on absens.id_karyawan = karyawans.id
+        `, {type: db.absen.sequelize.QueryTypes.SELECT})
+        .then((response) => {res.status(200).send(response)})
+        .catch((err) => {res.status(400).send(err)})
+    },
     _update: (req, res) => {
         db.absen.findOne({
             where: {
