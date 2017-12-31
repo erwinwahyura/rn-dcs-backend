@@ -25,7 +25,6 @@ module.exports = {
     })
     .then((response) => {
       console.log('test - ',response);
-      res.send(response)
         bcrypt.compare(req.body.password, response.password, (err,resp) => {
             if (resp === true) {
                 const token = jwt.sign({id: response.id, name: response.name}, process.env.secretKey)
