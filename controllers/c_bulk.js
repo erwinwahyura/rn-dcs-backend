@@ -3,6 +3,7 @@ const db = require('../models');
 module.exports = {
     _bulkInsert: (req, res) => {
         const data = req.body.datas
+        console.log('data: ', data)
         db.penilaians.bulkCreate(data)
         .then((response) => {
             res.status(200).send(response)
