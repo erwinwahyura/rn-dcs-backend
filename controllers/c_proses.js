@@ -402,8 +402,6 @@ var fuzzyNR = (req, res) => {
         
     })
     .then(() => {
-        var temp = bigData;
-        
         bigData.map(x => {
             rule(x)
         })
