@@ -402,10 +402,11 @@ var fuzzyNR = (req, res) => {
         
     })
     .then(() => {
+        var temp = bigData;
+        
         bigData.map(x => {
             rule(x)
         })
-
         // console.log('anya : ', aData)
         // console.log('znya : ', zData)
        // console.log('bigdatanya: ', JSON.stringify(bigData));
@@ -415,6 +416,9 @@ var fuzzyNR = (req, res) => {
     .then(() => {
         var data = dataResultDefuzzyfikasi;
         dataResultDefuzzyfikasi = [];
+        bigData = []
+        aData = []
+        zData = []
         res.status(200).send(data);
     })
     .then(console.log('sukses generate proses fuzzy penilaian!'))
