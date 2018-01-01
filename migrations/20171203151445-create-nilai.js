@@ -14,6 +14,9 @@ module.exports = {
       nilai: {
         type: Sequelize.STRING
       },
+      tag: {
+        type: Sequelize.STRING
+      },
       keterangan: {
         type: Sequelize.STRING
       },
