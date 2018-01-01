@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_penilaian: {
+      id_absen: {
         type: Sequelize.INTEGER
       },
       nilai: {
