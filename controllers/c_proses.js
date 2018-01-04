@@ -61,12 +61,15 @@ var getDataByWeekAndIdUser = (req, res) => {
         SUM (penilaians.sikap) as "total_sikap", 
         SUM (penilaians.kehadiran) as "total_kehadiran",
         SUM (penilaians.kerapihan) as "total_kerapihan", 
-        absens.id, karyawans.nama
-        FROM penilaians 
-        LEFT JOIN absens on penilaians.id_absen = absens.id
-        LEFT JOIN karyawans on absens.id_karyawan = karyawans.id
-        where id_absen = penilaians.id_absen and penilaians.tag = '${req.body.week}' and karyawans.id = ${req.body.id_karyawan}
-        group by absens.id, karyawans.id
+        
+        -- penilaians.tag,
+        absens.id, karyawans.id, karyawans.nama
+        from penilaians
+        left join absens on penilaians.id_absen = absens.id
+        left join karyawans on absens.id_karyawan = karyawans.id
+        where  karyawans.id = ${req.body.id_karyawan}  and penilaians.tag = '${req.body.week}'
+        group by karyawans.id, absens.id, penilaians.tag
+        
     `, {type: db.penilaian.sequelize.QueryTypes.SELECT})
     .then((response) => {
         res.status(200).send(response)
