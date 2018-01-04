@@ -55,6 +55,27 @@ var getDataByWeek  = (req, res) => {
     
 };
 
+var getDataByWeekAndIdUser = (req, res) => {
+    db.penilaian.sequelize.query(`
+        SELECT 
+        SUM (penilaians.sikap) as "total_sikap", 
+        SUM (penilaians.kehadiran) as "total_kehadiran",
+        SUM (penilaians.kerapihan) as "total_kerapihan", 
+        absens.id, karyawans.nama
+        FROM penilaians 
+        LEFT JOIN absens on penilaians.id_absen = absens.id
+        LEFT JOIN karyawans on absens.id_karyawan = karyawans.id
+        where id_absen = penilaians.id_absen and penilaians.tag = '${req.body.week}' and karyawans.id = ${req.body.id_karyawan}
+        group by absens.id, karyawans.id
+    `, {type: db.penilaian.sequelize.QueryTypes.SELECT})
+    .then((response) => {
+        res.status(200).send(response)
+    })
+    .catch((err) => {
+        res.status(500).send(err)
+    })
+}
+
 var fuzzyNR = (req, res) => {
    
     //output fuzzy
@@ -425,5 +446,6 @@ var fuzzyNR = (req, res) => {
 
 module.exports = {
     getDataByWeek,
+    getDataByWeekAndIdUser,
     fuzzyNR,
 }
