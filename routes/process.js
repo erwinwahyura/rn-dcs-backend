@@ -6,6 +6,7 @@ var c_bulk = require('../controllers/c_bulk')
 /* GET users listing. */
 
 router.post('/', c_proses.getDataByWeek);
+router.post('/tunggal', c_proses.getDataByWeekAndIdUser);
 router.post('/fuzzy', c_proses.fuzzyNR);
 router.post('/save', c_bulk._bulkInsert)
 
