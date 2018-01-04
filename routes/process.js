@@ -8,6 +8,7 @@ var c_bulk = require('../controllers/c_bulk')
 router.post('/', c_proses.getDataByWeek);
 router.post('/tunggal', c_proses.getDataByWeekAndIdUser);
 router.post('/fuzzy', c_proses.fuzzyNR);
+router.post('/fuzzytunggal', c_proses.fuzzyTunggal);
 router.post('/save', c_bulk._bulkInsert)
 
 module.exports = router;
