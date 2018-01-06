@@ -84,7 +84,7 @@ var fuzzyNR = (req, res) => {
     //output fuzzy
     let nBaik = (aPredikat, id) => {
         var temp;
-        temp = 3 * aPredikat;
+        temp = 2 * aPredikat;
         zResult = 6 + temp;
         zData.push({'id': id, 'z': zResult, 'no': zNo ,'status': 'Baik'});
         zNo+=1;
@@ -94,7 +94,7 @@ var fuzzyNR = (req, res) => {
 
     let nBuruk = (aPredikat, id) => {
         var temp, temp2;
-        temp = 2 * aPredikat;
+        temp = 3 * aPredikat;
         temp2 = temp - 6;
         zResult = temp2 * (-1) 
         zData.push({'id': id, 'z': zResult, 'no': zNo, 'status': 'Buruk'});
