@@ -37,7 +37,7 @@ var getDataByWeek  = (req, res) => {
             SUM (penilaians.kerapihan) as "total_kerapihan", 
             absens.id, karyawans.nama
             FROM penilaians 
-            LEFT JOIN absens on penilaians.id_absen = absens.id
+            LEFT JOIN absens on penilaians.id_absen = absens.id_karyawan
             LEFT JOIN karyawans on absens.id_karyawan = karyawans.id
             where id_absen = penilaians.id_absen and penilaians.tag = '${req.body.week}'
             group by absens.id, karyawans.id
@@ -65,7 +65,7 @@ var getDataByWeekAndIdUser = (req, res) => {
         -- penilaians.tag,
         absens.id, karyawans.id, karyawans.nama
         from penilaians
-        left join absens on penilaians.id_absen = absens.id
+        left join absens on penilaians.id_absen = absens.id_karyawan
         left join karyawans on absens.id_karyawan = karyawans.id
         where  karyawans.id = ${req.body.id_karyawan}  and penilaians.tag = '${req.body.week}'
         group by karyawans.id, absens.id, penilaians.tag
@@ -402,7 +402,7 @@ var fuzzyNR = (req, res) => {
                     SUM (penilaians.kerapihan) as "total_kerapihan",
                     absens.id, karyawans.nama
                 FROM penilaians 
-                    LEFT JOIN absens on penilaians.id_absen = absens.id
+                    LEFT JOIN absens on penilaians.id_absen = absens.id_karyawan
                     LEFT JOIN karyawans on absens.id_karyawan = karyawans.id
                     where id_absen = penilaians.id_absen and penilaians.tag = '${weekParam}'
                     group by absens.id, karyawans.id
@@ -772,7 +772,7 @@ var fuzzyTunggal = (req, res) => {
                 SUM (penilaians.kerapihan) as "total_kerapihan", 
                 absens.id, karyawans.id, karyawans.nama, penilaians.tag
                 from penilaians
-                left join absens on penilaians.id_absen = absens.id
+                left join absens on penilaians.id_absen = absens.id_karyawan
                 left join karyawans on absens.id_karyawan = karyawans.id
                 where  karyawans.id = ${req.body.id_karyawan}  and penilaians.tag = '${req.body.week}'
                 group by karyawans.id, absens.id, penilaians.tag 
